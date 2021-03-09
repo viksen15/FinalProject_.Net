@@ -9,9 +9,9 @@ MS Sql guardada en un servidor gratuito de somee.com
 
 #### 2. Componentes del equipo
 ```
+Viksen Senkov - Front end Developer
 Joan Baza - Back end Developer
 Iago Gonzalez - Back end & Front end Developer
-Viksen Senkov - Front end Developer
 ```
 
 #### 3. Lista con los pasos mínimos que se necesitan para clonar exitosamente el proyecto
