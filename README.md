@@ -1,5 +1,5 @@
 # FinalProject_.Net
-Proyecto final del curso de Programación .Net (Reus) para Grupo Castilla
+Proyecto final del curso de Programación .Net (Reus) de Fundación Esplai para Grupo Castilla
 
 #### 1. Descripción
 ```
