@@ -1,0 +1,16 @@
+﻿.navbar-nav > #logout {
+    margin-left: 15px;
+}
+#logout {
+    margin-left: 15px;
+    color: white;
+}
+
+#superior .dropdown-menu {
+    background-color: #4949f9;    
+}
+
+#superior .dropdown-menu .dropdown-item {
+    color: white;
+    font-weight: 500;
+}

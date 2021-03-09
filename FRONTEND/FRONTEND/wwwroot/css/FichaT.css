@@ -1,0 +1,71 @@
+﻿#fichaH2 {
+    text-align: center;
+    color: rgb(42, 96, 211);
+    margin-top:1em;
+}
+
+.up-right {
+    text-align: right;
+    margin: 0;
+    margin-right: 20px;
+}
+
+.up-left {
+    text-align: left;
+    margin: 0;
+    margin-left: 5px;
+    color: gray;
+}
+
+#fichaH4 {
+    color: rgb(42, 96, 211);
+}
+
+.FichaT {
+    color: rgb(42, 96, 211);
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    margin-top: 5px;
+    text-align: left;
+    outline: none;
+    font-size: 22px;
+    font-weight: bolder;
+    transition: 2s;
+}
+
+.active, .FichaT:hover {
+    background-color: rgb(174, 211, 236);
+}
+
+.FichaT:after {
+    content: '\2193';
+    color: rgb(42, 96, 211);
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2191";
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    border:none;
+}
+#Funciones, #Idiomas, #Titulaciones, #Formacion, #Misiones {
+    white-space: pre;
+}
+
+.texto {
+    border: rgb(225, 225, 255) 1px solid;
+}
+.advertencia{
+    color: rgb(165,165,165);
+}

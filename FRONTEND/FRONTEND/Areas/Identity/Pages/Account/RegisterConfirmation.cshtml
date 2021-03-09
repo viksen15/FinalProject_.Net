@@ -1,0 +1,29 @@
+﻿@page
+@model RegisterConfirmationModel
+@{ ViewData["Title"] = "Confirmación de registro"; }
+<div class="container-fluid">
+    <div class="row justify-content-center" style="margin-top: 5%">
+        <div class="col-md-4 ">
+
+            <h1>@ViewData["Title"]</h1>
+            <br />
+            @{ if (@Model.DisplayConfirmAccountLink)
+                {
+    <p>
+        Su cuenta ha sido creada con éxito.
+    </p>
+                    <p>
+                        <a id="confirm-link" href="@Model.EmailConfirmationUrl">Haga clic aquí para confirmar su cuenta</a>
+                    </p> }
+                else
+                {
+    <p>
+        Por favor revise su email para confirmar su cuenta.
+    </p> } }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/css/Fondo.css" />
+}

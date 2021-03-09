@@ -1,0 +1,303 @@
+﻿
+/* IAGO - VIKSEN - JOAN */
+#navSecundario{
+    color:black;
+}
+#MailPage{
+    padding-right: 1em;
+}
+.padre{
+    display:inline-flex;
+}
+.icoUser{
+    font-size: 35px;
+    color:rgb(72, 90, 128)
+}
+.buttons{
+margin-left: 1em;
+}
+.option{
+margin-right:0;
+font-size: 20px;
+    color: rgb(195,195,195);
+}
+.contacts-list{
+    margin-bottom: 5px;
+}
+#hijoPrincipal{
+    padding-bottom:1em;
+    padding-right: 2%;
+    padding-left: 2%;
+}
+#hijoCorreoNuevo{
+    padding-top:1em;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+#hijoMailRecibido{
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+#hijoBandejaBorrados {
+    padding-bottom: 1em;
+    padding-right: 2%;
+    padding-left: 2%;
+}
+#hijoMailBorrado {
+    padding-top: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+#newMailButtons {
+    border: none;
+}
+#mailMenu{
+    border: none;
+}
+#hovRecibidos tr:hover {
+    background-color: lightseagreen;
+}
+.recibidos{
+    overflow:auto;
+    height: 675px;
+}
+.manoCursor:hover{
+    cursor: pointer;
+}
+.hovBarra:hover{
+    background-color: rgb(142, 195, 238);
+}
+.mailSections{
+    padding: 15px;
+    margin-right: 50px;
+}
+.toolbar{
+    margin-bottom:1em;
+}
+.searchbox{
+    margin-left: 1.5em;
+}
+
+
+/* MAIL LIST */
+.contacts-list {
+    list-style-type: none;
+    height: 710px;
+    overflow: auto;
+}
+
+.contacts-list > div {
+    color: lightseagreen;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid lightgray;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+    .contacts-list > div:hover {
+        color: white;
+        background: linear-gradient(to right,#212185 0%,#20b2aa 100%);
+    }
+div.option:hover{
+    color:white;
+}
+
+.contacts-list::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.contacts-list::-webkit-scrollbar {
+    width: 5px;
+    background-color: #F5F5F5;
+}
+
+.contacts-list::-webkit-scrollbar-thumb {
+    background-color: #F90;
+    background-image: -webkit-linear-gradient(top, #212185 0%,#20b2aa 100%);
+}
+
+
+
+/* FIN NOSOTROS */
+
+
+
+.header {
+    display: flex;
+}
+  .header .name {
+    white-space: nowrap;
+    text-overflow: ellipsis; }
+  .header:after {
+    content: "";
+    display: block;
+    clear: both; }
+
+  /* FIN CONTACTS MAIL LIST*/
+
+/* MAIL */
+
+
+html,body{
+    height:100%;
+    box-sizing:border-box
+}
+body{
+    display:flex;
+    flex-direction:column;
+
+    font:14px/1.42857143 "Noto Sans",Segoe UI,'Roboto',Myriad Pro,sans-serif;
+    color:#787878;
+    overflow:visible
+}
+input{ font:inherit }
+ul{
+    list-style-type:none;
+    margin:0;
+    padding:0
+}
+
+h1,h2,h3,h4,h5,h6{
+    margin:0;
+    font-weight:normal
+}
+p{ margin:0 }
+.k-tooltip-button{ display:none }
+body>div:last-child{ flex:none }
+.image-wrapper{ overflow:hidden }
+
+.k-item{ border:0 }
+
+.k-widget.k-tooltip{
+    font-size:12px;
+    top:0
+}
+.k-widget.k-tooltip .k-tooltip-content{
+    padding-right:0;
+    padding:0 30px
+}
+.k-widget.k-tooltip .image-wrapper{
+    width:100px;
+    height:100px;
+    margin:25px auto 10px;
+    border-radius:50%;
+    overflow:hidden;
+    border:1px solid rgba(0,0,0,.15)
+}
+.k-widget.k-tooltip .image-wrapper img{
+    width:102%;
+    margin-top:-5%
+}
+.k-widget.k-tooltip .k-callout-n{
+    top:-9px;
+    border-bottom-color:#fff;
+    border-width:0 9px 9px 9px;
+    margin-left:-8px
+}
+.k-widget.k-tooltip .name{
+    font-size:15px;
+    margin:5px
+}
+.k-widget.k-tooltip #signInButton{
+    margin:40px 0;
+    padding:5px 30px;
+    white-space:nowrap;
+    font-size:14px;
+    background:#1e8edf;
+    border-color:#1e8edf
+}
+.main-content{
+    display:flex;
+    overflow:auto;
+    
+}
+.main-section{
+    flex:1;
+    position:relative;
+    background:#fff;
+    box-shadow:0 0 4px 2px rgba(0,0,0,.06);
+}
+.main-section .toolbar{ border-bottom:1px solid #ebebeb }
+.main-section .toolbar .left{ float:left }
+.main-section .toolbar .right{ float:right }
+.main-section .toolbar .btn{ 
+    display:flex;
+    padding:.71em 16px;
+    line-height:1.42857;
+    height:1.42857em;
+    text-align:center;
+    cursor:pointer
+}
+.main-section .toolbar .btn.iconOnly{
+    width:1.42857em;
+    padding:.71em
+}
+.main-section .toolbar .btn.iconOnly:before{
+    font:15px WebComponentsIcons;
+    display:inline-block
+}
+.main-section .toolbar .btn.iconOnly.selected{ color:#1e8edf }
+.main-section .toolbar .btn.btn-cards:before{ content:"" }
+.main-section .toolbar .btn.btn-vertical-pane:before{ 
+    content:"";
+    transform:rotate(180deg)
+}
+.main-section .toolbar .btn.btn-horizontal-pane:before{
+    content:"";
+    transform:rotate(180deg)
+}
+.main-section .toolbar .btn:hover{ background:#ebebeb }
+.main-section .toolbar .btn:not(.iconOnly):active{
+    color:#fff;
+    background:#1e8edf
+}
+.main-section .toolbar:after{
+    content:"";
+    display:block;
+    clear:both
+}
+.inner-section{
+    display:flex;
+    flex-direction:column;
+    overflow:auto
+}
+.searchbox{
+    display:flex;
+    margin-top: 4px;
+    width:100%;
+}
+.searchbox:after{
+    content:"";
+    display:block;
+    margin-left: 5px;
+    margin-top: 5px;
+    font:20px WebComponentsIcons;
+}
+
+
+.main-sidebar .content{ flex:1 }
+.main-sidebar .new-btn{ 
+    display:flex;
+    padding:13px 16px;
+    font-size:16px;
+    color:#0072c6;
+    cursor:pointer;
+    align-items:center
+}
+.main-sidebar .new-btn:before{
+    display:inline-block;
+    content:"";
+    margin:0 5px 0 0;
+    font:24px "WebComponentsIcons";
+    vertical-align:middle
+}
+.main-sidebar .k-treeview .k-item{ padding:0 }
+.main-sidebar .k-treeview .k-in{
+    display:block;
+    margin:0;
+    padding:10px 15px
+}

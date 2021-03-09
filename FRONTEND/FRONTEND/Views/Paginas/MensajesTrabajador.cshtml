@@ -1,0 +1,639 @@
+﻿<link rel="stylesheet" href="~/css/paginamails.css" />
+<link href="https://kendo.cdn.telerik.com/2021.1.119/styles/kendo.common.min.css" rel="stylesheet">
+<link href="https://kendo.cdn.telerik.com/2021.1.119/styles/kendo.metro.min.css" rel="stylesheet">
+
+@*  ESTA ES LA BARRA DE INFORMACIÓN    *@
+
+<nav id="navSecundario" class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-around">
+    <i class="fa-bars fa"></i><a class="navbar-brand">Mensajes</a>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <button class="btn btn-outline-primary btn-sm disabled" style="margin-right: 5px;">I.J.V</button>
+        <button id="reloj" class="btn btn-outline-primary btn-sm disabled"></button>
+    </div>
+</nav>
+
+@*  AQUI ESTA TODO EL CONTENIDO DE LA PAGINA DE MENSAJES    *@
+<content id="MailPage" class="main-content">
+
+    @*  ESTA ES LA BARRA DE OPCIONES (IZQUIERDA) DE LA PAGINA DE MENSAJES   *@
+    <aside class="main-sidebar">
+        <div class="content">
+            <span class="new-btn new-Mail hovBarra" onclick="MostrarMailNuevo()">Crear correo</span>
+            <div id="navigationTreeView" data-role="treeview" class="k-widget k-treeview" tabindex="0" role="tree" aria-activedescendant="navigationTreeView_tv_active">
+                <ul class="k-group k-treeview-lines">
+                    <li role="treeitem" class="k-item">
+                        <div class="k-top hovBarra" onclick="MostrarBandejaEntrada()">
+                            <span class="mailSections">
+                                <span class="folder-name manoCursor">Bandeja de entrada</span>
+                            </span>
+                        </div>
+                    </li>
+                    <li role="treeitem" class="k-item">
+                        <div class="k-mid hovBarra" onclick="MostrarBandejaBorrados()">
+                            <span class="mailSections">
+                                <span class="folder-name manoCursor">Borrados</span>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    
+    <section class="main-section">
+        @*  AQUI ESTA LA BARRA SUPERIOR DE SELECCIÓN Y BUSQUEDA *@
+        <div class="toolbar">
+            <div class="left">
+                <span class="searchbox">
+                    <input type="text" class="k-input search-textbox" placeholder="Buscar ...">
+                </span>
+            </div>
+            <div class="right">
+                <ul class="k-widget k-reset k-header k-menu k-menu-horizontal" style="display: none;" id="newMailButtons" data-role="menu" tabindex="0" role="menubar">
+                    <li class="k-item k-menu-item k-first" aria-haspopup="true" role="menuitem">
+                        <span class="k-link k-menu-link">Enviar</span>
+                    </li>
+                    <li class="k-item k-menu-item" id="Deleted" role="menuitem">
+                        <span class="k-link k-menu-link">Cancelar</span>
+                    </li>
+                </ul>
+
+                <ul class="k-widget k-reset k-header k-menu k-menu-horizontal" id="mailMenu" data-role="menu" tabindex="0" role="menubar">
+                    <li class="k-item k-menu-item k-first" aria-haspopup="true" role="menuitem">
+                        <span class="k-link k-menu-link">Responder</span>
+                    </li>
+                    <li class="k-item k-menu-item" id="read" operation="read" role="menuitem">
+                        <span class="k-link k-menu-link">Marcar como leído</span>
+                    </li>
+                    <li class="k-item k-menu-item" id="Deleted" operation="moveDelete" role="menuitem">
+                        <span class="k-link k-menu-link">Borrar</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="padre">
+            @*  AQUI ESTA LA LISTA DE USUARIOS DEL SISTEMA  *@
+            <div class="list-view">
+                <div class="contacts-list k-widget k-listview k-listview-bordered k-selectable k-scrollable" id="mainWidget" data-role="listview" role="listbox">
+
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Jesús Rodríguez</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Raúl González</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Cristina Pérez</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Marta Moya</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Victoria Hernández</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Luis Martínez</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Ana Sánchez</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Ana Fernández</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Maria Fernández</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Jaime González</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Ana Rodríguez</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Juana de Arco</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-view k-widget" role="option" aria-selected="true">
+                        <div class="header">
+                            <span class="name">Juan Caspe</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Júlio Silvestre</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Luisa Esposito</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-view k-widget" role="option" aria-selected="false">
+                        <div class="header">
+                            <span class="name">Soraya Manríquez</span>
+                            <div class="buttons">
+                                <div class="option manoCursor">
+                                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="envelope-open-text" class="svg-inline--fa fa-envelope-open-text fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            @*  AQUI ESTA LA LISTA DE CORREOS RECIBIDOS (BANDEJA DE ENTRADA)    *@
+            <div id="hijoPrincipal">
+                <div class="k-widget k-grid k-grid-display-flex " id="mainWidget" data-role="grid">
+                    <div class="k-grid-header" style="padding-right: 17px;">
+                        <div class="k-grid-header-wrap k-auto-scrollable">
+                            <table role="grid">
+                                <colgroup>
+                                    <col style="width:60px">
+                                    <col>
+                                    <col>
+                                    <col>
+                                </colgroup>
+                                <thead role="rowgroup">
+                                    <tr role="row">
+                                        <th class="k-header" data-field="ID" data-index="0" data-title="" id="a521f732-de17-450b-bafa-5a92d62e8270" scope="col" style="touch-action: none;">
+                                            <input type="checkbox" class="master-checkbox">
+                                        </th>
+                                        <th class="k-header" data-field="From" data-index="1" data-title="From" id="7c565a95-cd52-4a84-a254-448a14610190" scope="col" data-role="columnsorter" style="touch-action: none;">
+                                            De:
+                                        </th>
+                                        <th class="k-header" data-field="Subject" data-index="2" data-title="Subject" id="5885bdc2-c597-40a4-acc4-6c2e5690e7d3" scope="col" data-role="columnsorter" style="touch-action: none;">
+                                            Asunto:
+                                        </th>
+                                        <th class="k-header" data-field="Date" data-index="4" data-title="Date" id="bdcaf0e5-ba4c-42d8-bf87-d53c5aad0b8c" scope="col" data-role="columnsorter" style="touch-action: none;">
+                                            Fecha:
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="k-grid-content k-auto-scrollable recibidos">
+                        <table role="grid" data-role="selectable" class="k-selectable" aria-multiselectable="true">
+                            <colgroup>
+                                <col style="width:60px">
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <tbody id="hovRecibidos" class="manoCursor" onclick="MostrarMailRecibido()" role="rowgroup">
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+                                <tr class="k-alt" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Martin Sommer</td>
+                                    <td class="" role="gridcell">Keep RadcloudUpload list synced with Azure backend</td>
+                                    <td class="date" role="gridcell">3/8/2015 7:10 PM</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            @*  AQUI ESTAN LOS DATOS DEL CORREO RECIBIDO    *@
+            <div id="hijoMailRecibido" style="display:none">
+
+                <div class="mail-details">
+                    <div class="mail-details-header">
+                        <h3 class="mail-subject">Keep RadcloudUpload list  synced with Azure backend</h3>
+                        <br />
+                        <p class="mail-date">Sat Aug 08 2015 19:10:00 GMT+0200 (hora de verano de Europa central)</p>
+                        <p class="mail-sender-wrapper">
+                            <label>To:</label>
+                            <span class="mail-sender">Antonio Morandi</span>
+                        </p>
+                    </div>
+                    <p class="mail-text">
+                        I am using the RadCloud upload with Azure blob storage.&nbsp;<br>
+                        <br>
+                        When I upload a file it gets copied into Azure Blob storage as expected. The user then hits a 'START' button and the file gets used as part of my workflow, (i.e. the radcloud list gets emptied and i remove all files from azure). This is all fine.<br>
+                        <br>
+                        My problem is if the user decides to refresh the page before hitting the 'START' button. When the page refreshes, the&nbsp;cloud upload list will get refreshed (i.e. emptied) but the file remains in blob storage. So the radcloud upload list is nolonger in sync with what is on azure.<br>
+                        <br>
+                        <br>
+                        My question is<br>
+                        <br>
+                        1) how do i keep the radcloud file list in sync with the files that are in azure.<br>
+                        <br>
+                        2) if i added code to pull the list from azure, how do i add this list to the radcloudupload list<br>
+                        <br>
+                        <br>
+                        thanks,<br>
+                        michael.
+                    </p>
+                </div>
+            </div>
+
+            @*  AQUI ESTAN LOS DATOS AL CLICAR SOBRE "CORREO NUEVO" *@
+            <div id="hijoCorreoNuevo" style="display: none;">
+
+                <div class="inner-section">
+                    <label class="form-label" for="to-textbox" id="to-textbox_label">
+                        Para: &ensp; &ensp;&ensp;
+                        <input type="text" style="width:92%" name="to-textbox" value="" required>
+                    </label>
+                    <label class="form-label" for="subject-textbox">
+                        Asunto: &ensp;
+                        <input type="text" style="width:92%" name="subject-textbox" value="">
+                    </label>
+
+                    <div class="attachements-line">
+                        <div class="k-widget k-upload k-upload-async k-upload-empty">
+                            <div class="k-dropzone">
+                                <div class="k-button k-upload-button">
+                                    <input id="files" name="files" type="file" data-role="upload" multiple="multiple" autocomplete="off">
+                                    <span>Añadir archivo ...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <label class="form-label">Mensaje:</label>
+                    <table cellspacing="0" cellpadding="0" class="k-widget k-editor k-editor-widget" role="presentation" style="height: 510px;">
+                        <tbody>
+                            <tr>
+                                <td class="k-editable-area">
+                                    <textarea id="tiny" class="form-control" rows="19" placeholder="Escriba aquí su mensaje ..."></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            @*  AQUI ESTA LA LISTA DE CORREOS BORRADOS  *@
+            <div id="hijoBandejaBorrados" style="display: none">
+                <div class="k-widget k-grid k-grid-display-flex " id="mainWidget" data-role="grid">
+                    <div class="k-grid-header" style="padding-right: 17px;">
+                        <div class="k-grid-header-wrap k-auto-scrollable">
+                            <table role="grid">
+                                <colgroup>
+                                    <col style="width:60px">
+                                    <col>
+                                    <col>
+                                    <col>
+                                </colgroup>
+                                <thead role="rowgroup">
+                                    <tr role="row">
+                                        <th class="k-header" data-field="ID" data-index="0" data-title="" id="a521f732-de17-450b-bafa-5a92d62e8270" scope="col" style="touch-action: none;">
+                                            <input type="checkbox" class="master-checkbox">
+                                        </th>
+                                        <th class="k-header" data-field="From" data-index="1" data-title="From" id="7c565a95-cd52-4a84-a254-448a14610190" scope="col" data-role="columnsorter" style="touch-action: none;">
+                                            De:
+                                        </th>
+                                        <th class="k-header" data-field="Subject" data-index="2" data-title="Subject" id="5885bdc2-c597-40a4-acc4-6c2e5690e7d3" scope="col" data-role="columnsorter" style="touch-action: none;">
+                                            Asunto:
+                                        </th>
+                                        <th class="k-header" data-field="Date" data-index="4" data-title="Date" id="bdcaf0e5-ba4c-42d8-bf87-d53c5aad0b8c" scope="col" data-role="columnsorter" style="touch-action: none;">
+                                            Fecha:
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="k-grid-content k-auto-scrollable recibidos">
+                        <table role="grid" data-role="selectable" class="k-selectable" aria-multiselectable="true">
+                            <colgroup>
+                                <col style="width:60px">
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <tbody id="hovRecibidos" class="manoCursor" onclick="MostrarMailBorrado()" role="rowgroup">
+                                <tr class="k-master-row" data-uid="vdeb2468-9c7f-4fc7-8d5c-a34d7d325dcd" role="row">
+                                    <td class="" role="gridcell">
+                                        <input type="checkbox" class="chkbx">
+                                    </td>
+                                    <td class="" role="gridcell">Christina Berglund</td>
+                                    <td class="" role="gridcell">RadCloudUpload1.FileUploaded Not firing</td>
+                                    <td class="date" role="gridcell">8/7/2015 10:41 PM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            @*  AQUI ESTAN LOS DATOS DEL CORREO BORRADO*@
+            <div id="hijoMailBorrado" style="display:none">
+
+                <div class="mail-details">
+                    <div class="mail-details-header">
+                        <h3 class="mail-subject">RadCloudUpload1.FileUploaded Not firing</h3>
+                        <br />
+                        <p class="mail-date">Fri Aug 07 2015 22:41:00 GMT+0200 (hora de verano de Europa central)</p>
+                        <p class="mail-sender-wrapper">
+                            <label>To:</label>
+                            <span class="mail-sender">Antonio Morandi; Viktor Tachev</span>
+                        </p>
+                    </div>
+                    <p class="mail-text">Hello,<br>1) Is there a way to do an automatic post-back when files finish uploading without the user having to click on a button? I am trying to save uploaded file information to database for further processing. The event doe not seem to be firing.<br>Thanks.</p>
+                </div>
+        </div>
+
+
+</section>
+</content>
+
+@section Scripts{
+    <script src="~/js/paginaMails.js"></script>
+    <script src="https://cdn.tiny.cloud/1/5pf45vugxayeolilse69mdwc35ipdgu5oav3l2slwv44p4fk/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        $('textarea#tiny').tinymce({
+            height: 520,
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
+        });
+    </script>
+}
+

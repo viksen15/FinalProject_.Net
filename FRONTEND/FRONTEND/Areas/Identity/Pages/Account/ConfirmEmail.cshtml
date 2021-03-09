@@ -1,0 +1,25 @@
+﻿@page
+@model ConfirmEmailModel
+@{ ViewData["Title"] = "Confirmación de email"; }
+<div class="container-fluid">
+    <div class="row justify-content-center" style="margin-top: 5%">
+        <div class="col-md-4 ">
+
+            <h1>@ViewData["Title"]</h1>
+            <br />
+            <p>
+                Su email ha sido confirmado.
+            </p>
+            <div class="form-group">
+                <p>
+                    <a asp-page="./Login">Volver a la pagina iniciar sesión</a>
+                </p>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+        @section Scripts{
+            <link rel="stylesheet" href="~/css/Fondo.css" />
+        }

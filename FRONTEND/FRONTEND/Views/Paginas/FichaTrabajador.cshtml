@@ -1,0 +1,87 @@
+<div class="container-fluid">
+    <h2 id="fichaH2"></h2>
+
+    <p class="up-right" id="idTrabajador"></p>
+    <p class="up-right" id="version">V.1</p>
+    <p class="up-right" id="tipo"></p>
+    <p class="up-right" id="generico"></p>
+
+    <p class="up-left" id="u-org"></p>
+    <p class="up-left" id="puesto"></p>
+    <br>
+
+    <h4 id="fichaH4">Retribución</h4>
+    <p id="grupo"><strong>Grupo profesional </strong></p>
+    <hr />
+    <p class="advertencia"><i class="fas fa-exclamation-triangle" style="margin-right:1em;"></i>Para guardar los cambios tan solo haga click fuera del texto.</p>
+    <p class="advertencia"><i class="fas fa-exclamation-triangle" style="margin-right:1em;"></i>Para insertar un cambio de linea use Mayus + Enter</p>
+    <hr />
+    <button class="accordion FichaT">
+        <i class="fas fa-cogs"></i>
+        Funciones
+    </button>
+    <div class="panel">
+        <hr>
+        <p id="Funciones" class="texto" contenteditable="true">Aqui se muestran las funciones que desemplea el trabajador en la empresa.</p>
+    </div>
+
+    <button class="accordion FichaT">
+        <i class="fas fa-rocket"></i>
+        Misiones
+    </button>
+    <div class="panel">
+        <hr>
+        <p id="Misiones" class="texto" contenteditable="true">Aqui se muestran las misiones que tiene el trabajador en la empresa.</p>
+    </div>
+
+    <button class="accordion FichaT">
+        <i class="fas fa-graduation-cap"></i>
+        Titulaciones
+    </button>
+    <div class="panel">
+        <hr>
+        <p id="Titulaciones" class="texto" contenteditable="true">Aqui se muestran las titutlaciones de las que dispone el trabajador.</p>
+    </div>
+
+    <button class="accordion FichaT">
+        <i class="fas fa-chalkboard-teacher"></i>
+        Formación específica
+    </button>
+    <div class="panel">
+        <hr>
+        <p id="Formacion" class="texto" contenteditable="true">Aqui se muestra la titulación específica de la que dispone el trabajador además de sus titulaciones.</p>
+    </div>
+
+    <button class="accordion FichaT">
+        <i class="fas fa-comment-dots"></i>
+        Idiomas
+    </button>
+    <div class="panel">
+        <hr>
+        <p id="Idiomas" class="texto" contenteditable="true">Aqui se muestran los idiomas que sabe el trabajador.</p>
+    </div>
+
+
+</div>
+<link rel="stylesheet" href="~/css/FichaT.css" />
+
+@section Scripts {
+    <script>
+        var acc = document.getElementsByClassName("FichaT");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+    <script src="~/js/FichaTrabajador.js"></script>
+}
+

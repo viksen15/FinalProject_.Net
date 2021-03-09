@@ -1,0 +1,46 @@
+﻿@page
+@model LoginWith2faModel
+@{ ViewData["Title"] = "Autenticación de dos pasos"; }
+<div class="container-fluid">
+    <div class="row justify-content-center" style="margin-top: 5%">
+        <div class="col-md-4 ">
+
+            <h1>@ViewData["Title"]</h1>
+            <hr />
+            <p>Su inicio de sesión está protegido con una app de autenticación. Ingrese su codigo de atenticación debajo.</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+                        <input asp-for="RememberMe" type="hidden" />
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Input.TwoFactorCode"></label>
+                            <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label asp-for="Input.RememberMachine">
+                                    <input asp-for="Input.RememberMachine" />
+                                    @Html.DisplayNameFor(m => m.Input.RememberMachine)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <p>
+                ¿No tiene acceso a su dispositivo de autenticación? Puede
+                <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">iniciar sesión con un codigo de recuperación</a>.
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="~/css/Fondo.css" />
+    <partial name="_ValidationScriptsPartial" />
+}
